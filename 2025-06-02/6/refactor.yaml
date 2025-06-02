@@ -1,0 +1,22 @@
+Write a simple JSON object representing a student. The student should have a name, age, grade, and a list of subjects.
+
+Write a corresponding YAML object for the same student data from 1 assignment.
+
+Given the following JSON data, find any structural issues and correct them:
+
+{ "name": "John Smith" "age": 25, "address": { "city": "New York" "country": "USA" }, "hobbies": ["reading", "cooking",.], }
+
+Convert the corrected JSON data from 3 assignment to YAML.
+
+Read about JSON Schema and write a basic schema for the student JSON object from the 1st tasks.
+
+Learn about YAML anchors and aliases. Then, refactor the YAML student object to utilize an anchor for one of the subjects, and use an alias to add that subject to another student.
+
+Write a program in a language of your choice that consumes JSON
+data from a file, manipulates the data in some way (e.g., changes a value, adds a new field, deletes a field), and writes the data back to the file.
+
+BONUS: Write a program in a language of your choice that does the same as the previous task, but with a YAML file.
+
+BONUS: Convert a complex nested JSON data structure to YAML:
+
+{"employees": [{"firstName": "John", "lastName": "Doe", "skills": ["communication", "problem-solving"]}, {"firstName": "Anna","lastName": "Smith","skills": ["programming", "problem-solving"]}]}

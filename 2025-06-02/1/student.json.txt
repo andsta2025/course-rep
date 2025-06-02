@@ -1,0 +1,6 @@
+{
+        "name": "Jonas Gudas",
+        "age": 18,
+        "grade": "12th",
+        "subjects": ["Lithuanian", "Math", "English", "Chemistry"]
+}
