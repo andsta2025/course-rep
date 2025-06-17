@@ -23,7 +23,8 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and Push Docker image
-        uses: docker/build-push-action@v5
+      - name: Build Docker image (no push, for debugging)
+        run: docker build . --no-cache --progress=plain
         with:
           context: .
           push: true
