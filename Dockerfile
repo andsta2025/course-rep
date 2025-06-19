@@ -6,5 +6,5 @@ COPY app.sh /app.sh
 # Leidžiame vykdyti
 RUN chmod +x /app.sh
 
-# Numatytas paleidimo komandą
+# Numatytas paleidimo komandą 1
 CMD ["/app.sh"]
