@@ -41,3 +41,15 @@ jobs:
           echo "Test failed: Output does not match expected"
           exit 1
         fi
+    
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest
+
+    - name: Show Docker image size
+      run: |
+        docker pull ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest
+        docker image inspect ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest --format='Image size: {{.Size}} bytes'
