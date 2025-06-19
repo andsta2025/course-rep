@@ -23,11 +23,11 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app2:latest
     - name: Show Docker image size
       run: |
-        docker pull ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest
-        docker image inspect ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest --format='{{.Size}} byte
+        docker pull ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app2:latest
+        docker image inspect ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app2:latest --format='{{.Size}} byte
 
   test-container:
     runs-on: ubuntu-latest
@@ -35,13 +35,14 @@ jobs:
 
     steps:
     - name: Pull image from DockerHub
-      run: docker pull ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest
+      run: docker pull ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app2:latest
 
     - name: Run container and test output
       run: |
-        output=$(docker run --rm ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest)
+        output=$(docker run --rm ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app2:latest)
         echo "Program output: $output"
         if [ "$output" != "Hello from minimal Linux (Alpine)!" ]; then
           echo "Test failed: Output does not match expected"
           exit 1
         fi
+        
