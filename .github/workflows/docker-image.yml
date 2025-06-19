@@ -1,8 +1,8 @@
-name: Build and Push Minimal Alpine Docker Image
+name: Build, Push and Test Docker Image
 
 on:
   push:
-    branches: [ main ]  # Arba kita šaka
+    branches: [ main ]
 
 jobs:
   build-and-push:
@@ -24,3 +24,20 @@ jobs:
         context: .
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest
+
+  test-container:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    steps:
+    - name: Pull image from DockerHub
+      run: docker pull ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest
+
+    - name: Run container and test output
+      run: |
+        output=$(docker run --rm ${{ secrets.DOCKER_USERNAME }}/minimal-linux-app:latest)
+        echo "Program output: $output"
+        if [ "$output" != "Hello from minimal Linux (Alpine)!" ]; then
+          echo "Test failed: Output does not match expected"
+          exit 1
+        fi
