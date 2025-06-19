@@ -1,10 +1,10 @@
-FROM node:20
+FROM alpine:3.20
 
-WORKDIR /app
-# Copy package.json and package-lock.json first to leverage Docker cache
-COPY package*.json ./
-RUN npm install
+# Kopijuojame programą į konteinerį
+COPY app.sh /app.sh
 
-COPY . .
+# Leidžiame vykdyti
+RUN chmod +x /app.sh
 
-CMD ["npm", "start"]
+# Numatytas paleidimo komandą
+CMD ["/app.sh"]
