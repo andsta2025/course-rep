@@ -7,8 +7,6 @@ def timing_decorator(func):
         end_time = time.time()
         print(f"Function '{func.__name__}' executed in {end_time - start_time:.4f} seconds")
         print(f"Arguments: {args}, {kwargs}")
-        # Removed erroneous reference to 'n' and 'time.seep'
-        # print(f"Total: {end_time - start_time + time.seep(n):.4f} seconds")
         return result
     return wrapper
 
