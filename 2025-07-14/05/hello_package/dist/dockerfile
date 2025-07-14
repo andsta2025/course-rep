@@ -1,0 +1,13 @@
+FROM python:3.10-slim
+
+# Set work directory
+WORKDIR /app
+
+# Copy built wheel into the container
+COPY dist/hello_package-0.1.5-py3-none-any.whl .
+
+# Install it
+RUN pip install hello_package-0.1.5-py3-none-any.whl
+
+# Default command
+CMD ["hello-world"]

@@ -64,3 +64,5 @@ print("Current users after modifications:")
 users = fetch_users()
 for user in users:
     print(user)
+
+
