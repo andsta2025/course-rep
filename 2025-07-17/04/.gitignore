@@ -1,0 +1,17 @@
+# Virtual environment
+venv/
+.venv/
+
+# VSCode ir kiti IDE failai
+.vscode/
+.idea/
+
+# Python cache failai
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS failai
+.DS_Store
+Thumbs.db

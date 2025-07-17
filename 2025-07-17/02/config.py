@@ -1,0 +1,10 @@
+SECRET_KEY = 'super-secret-key'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///users.db'
+SECURITY_PASSWORD_SALT = 'my_precious_salt'
+SECURITY_PASSWORD_HASH = 'bcrypt'
+SECURITY_REGISTERABLE = True
+SECURITY_SEND_REGISTER_EMAIL = False  # For testing only
+SECURITY_POST_LOGIN_VIEW = '/'
+SECURITY_POST_LOGOUT_VIEW = '/login'
+SECURITY_LOGIN_URL = '/login'
+SECURITY_LOGOUT_URL = '/logout'
