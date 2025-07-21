@@ -1,0 +1,10 @@
+global:
+  resolve_timeout: 1m
+
+route:
+  receiver: default
+
+receivers:
+  - name: default
+    email_configs:
+      - to: vejai.vandenys@gmail.com  # <- gali palikti be šito, jei nesiunti el. paštu
