@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  gatus:
+    image: twinproduction/gatus:latest
+    container_name: gatus
+    restart: always
+    volumes:
+      - ./config:/config
+    ports:
+      - "8080:8080"
+    command: --config-file-path=/config/config.yaml
