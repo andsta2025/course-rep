@@ -1,0 +1,17 @@
+- name: Create logs directory
+  file:
+    path: /opt/logs
+    state: directory
+
+- name: Copy logging files
+  copy:
+    src: "{{ item }}"
+    dest: /opt/logs/
+  with_items:
+    - docker-compose.yml
+    - fluent.conf
+
+- name: Start logging stack
+  shell: docker-compose up -d
+  args:
+    chdir: /opt/logs

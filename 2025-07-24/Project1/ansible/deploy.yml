@@ -1,0 +1,41 @@
+- name: Deploy Flask App in Docker
+  hosts: all
+  become: yes
+  vars:
+    app_name: date-logger-app
+    app_port: 5000
+  tasks:
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Copy app code
+      copy:
+        src: ../
+        dest: /opt/{{ app_name }}
+        mode: '0755'
+
+    - name: Build Docker image
+      docker_image:
+        path: /opt/{{ app_name }}
+        name: "{{ app_name }}"
+        tag: latest
+        state: present
+
+    - name: Run Docker container
+      docker_container:
+        name: "{{ app_name }}"
+        image: "{{ app_name }}:latest"
+        state: started
+        restart_policy: always
+        ports:
+          - "{{ app_port }}:5000"

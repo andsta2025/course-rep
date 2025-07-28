@@ -1,0 +1,90 @@
+# docker-compose.yml (No changes from previous version, but included for completeness)
+version: '3.8'
+
+services:
+  # --- Web Application Service ---
+  app:
+    build: ./app # Build from the Dockerfile in the ./app directory
+    container_name: web_app
+    ports:
+      - "5000:5000" # Map host port 5000 to container port 5000
+    volumes:
+      - ./app:/app # Mount the app directory into the container
+      - app_logs:/app/logs # Persistent volume for logs
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_RUN_PORT=5000
+    restart: always # Always restart if the container stops
+    networks:
+      - app_network
+
+  # --- Prometheus Service ---
+  prometheus:
+    image: prom/prometheus:latest # Use the latest Prometheus image
+    container_name: prometheus
+    ports:
+      - "9090:9090" # Map host port 9090 to container port 9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml # Mount Prometheus config
+      - prometheus_data:/prometheus # Persistent volume for Prometheus data
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: always
+    networks:
+      - app_network
+
+  # --- Grafana Service ---
+  grafana:
+    image: grafana/grafana:latest # Use the latest Grafana image
+    container_name: grafana
+    ports:
+      - "3000:3000" # Map host port 3000 to container port 3000
+    volumes:
+      - grafana_data:/var/lib/grafana # Persistent volume for Grafana data
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources # Mount datasource config
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards # Mount dashboard config
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin # Default admin credentials (change after first login)
+    restart: always
+    networks:
+      - app_network
+
+  # --- Node Exporter Service (for host/container metrics, including log file) ---
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest # Use the latest Node Exporter image
+    container_name: node_exporter
+    ports:
+      - "9100:9100" # Map host port 9100 to container port 9100
+    volumes:
+      - /proc:/host/proc:ro # Read-only mount of /proc for process metrics
+      - /sys:/host/sys:ro # Read-only mount of /sys for system metrics
+      - /:/rootfs:ro # Read-only mount of root filesystem for disk metrics
+      # Mount the Docker volume where app logs are stored to Node Exporter
+      # This allows Node Exporter to see the log file's metadata
+      - app_logs:/app/logs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+      # Enable textfile collector to read custom metrics (e.g., log file parsing)
+      # For this setup, we rely on default filesystem metrics, but this is how you'd enable it:
+      # - '--collector.textfile.directory=/etc/node-exporter/textfile_collector'
+    restart: always
+    networks:
+      - app_network
+
+# --- Docker Volumes for Persistence ---
+volumes:
+  app_logs: # Volume for application logs
+  prometheus_data: # Volume for Prometheus data
+  grafana_data: # Volume for Grafana data
+
+# --- Docker Network ---
+networks:
+  app_network:
+    driver: bridge # Use a bridge network for inter-container communication
