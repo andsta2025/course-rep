@@ -21,3 +21,11 @@ Thumbs.db
 terraform.tfstate
 terraform.tfstate.backup
 terraform-provider-aws_v5.100.0_x5
+.terraform/
+*.db
+# Ignore all files with the .plan extension in the repository.
+# This is useful for excluding planning or temporary files from version control.
+*.plan
+# Ignore all files with the .tfvars extension in the repository.
+# This is useful for excluding variable files that may contain sensitive information.
+*.tfvars
