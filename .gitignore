@@ -29,3 +29,4 @@ terraform-provider-aws_v5.100.0_x5
 # Ignore all files with the .tfvars extension in the repository.
 # This is useful for excluding variable files that may contain sensitive information.
 *.tfvars
+*.backup
