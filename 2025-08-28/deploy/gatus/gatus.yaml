@@ -1,0 +1,17 @@
+alerting:
+slack:
+webhook-url: "${SLACK_WEBHOOK_URL}"
+
+
+endpoints:
+- name: example-http
+group: public
+url: https://example.org/health
+interval: 1m
+conditions:
+- "[STATUS] == 200"
+- "[RESPONSE_TIME] < 1000"
+
+
+ui:
+title: Jada — Gatus

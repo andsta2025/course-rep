@@ -1,0 +1,21 @@
+---
+- hosts: jada
+  become: true
+  roles:
+    - role: common
+    - role: docker
+
+
+- hosts: jada
+  become: true
+  tasks:
+    - name: Ensure Gatus up
+      community.docker.docker_compose_v2:
+        project_src: "/opt/gatus"
+        state: present
+      register: compose
+
+
+- name: Show compose result
+  debug:
+    var: compose

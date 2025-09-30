@@ -1,0 +1,8 @@
+project = "jada"
+aws_region = "eu-central-1"
+ssh_key_name = "your-aws-keypair-name"
+allowed_ssh_cidr = "0.0.0.0/0" # tighten this for production
+
+
+# Optional tags
+# tags = { env = "prod", owner = "ops" }
